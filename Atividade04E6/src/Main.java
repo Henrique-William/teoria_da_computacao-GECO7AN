@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 import static algorithms.BalancedChecker.*;
 
 public class Main {
@@ -9,7 +7,7 @@ public class Main {
         String[] testExpressions = {
                 "()", "{}", "[]", "({[]})", "(({{[[]]}}))", "(){}[]", "({[]}){}([])", //pas
                 "(", ")", "(]", "({[)]}", "{[}]", "(((", ")))", "{[}", "({})]", // don't pass
-                "", "abc", "{a+b*(c-d)]", "{a+b*(c-d)}"  //edge cases (if don't contains vocabulary = pass)
+                "", "abc", "{a+b*(c-d)]", "{a+b*(c-d)}"  //edge cases (if the expression don't contain vocabulary = pass)
         };
 
         for (String expr : testExpressions) {
