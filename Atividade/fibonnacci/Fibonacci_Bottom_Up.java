@@ -1,6 +1,6 @@
 import java.sql.Time;
 
-public class Fibonacci_bottom_top {
+public class Fibonacci_Bottom_Up {
     public static int fib(int n) {
         if(n <= 1) return n;
 
