@@ -1,0 +1,44 @@
+public class MergeSort_Linear {
+
+    public static int[] merge(int[] arrayEsquerdo, int[] arrayDireito) {
+        int[] resultado = new int[arrayEsquerdo.length + arrayDireito.length];
+        int n1 = arrayEsquerdo.length;
+        int n2 = arrayDireito.length;
+        int[] arrayUnido = new int[n1 + n2];
+        int i = 0, j = 0, k = 0;
+
+        while (i < n1 && j < n2) {
+            if (arrayEsquerdo[i] <= arrayDireito[j]) {
+                resultado[k++] = arrayEsquerdo[i++];
+            } else {
+                resultado[k++] = arrayDireito[j++];
+            }
+        }
+        while (i < n1) {
+            resultado[k++] = arrayEsquerdo[i++];
+        }
+        while (j < n2) {
+            resultado[k++] = arrayDireito[j++];
+        }
+        return resultado;
+    }
+    
+    public static void main(String[] args) {
+        int[] array = {38, 27, 43, 3, 9, 82, 10};
+        System.out.println("Array principal: " + java.util.Arrays.toString(array));
+
+        int[] arrayEsquerdo = new int[array.length / 2];
+        int[] arrayDireito = new int[array.length - arrayEsquerdo.length];
+        for (int i = 0; i < arrayEsquerdo.length; i++) {
+            arrayEsquerdo[i] = array[i];
+        }
+        for (int i = 0; i < arrayDireito.length; i++) {
+            arrayDireito[i] = array[i + arrayEsquerdo.length];
+        }
+
+        System.out.println("Array esquerdo: " + java.util.Arrays.toString(arrayEsquerdo));
+        System.out.println("Array direito: " + java.util.Arrays.toString(arrayDireito));
+        int[] resultado = merge(arrayEsquerdo, arrayDireito);
+        System.out.println("Array resultante: " + java.util.Arrays.toString(resultado));
+    }
+}
