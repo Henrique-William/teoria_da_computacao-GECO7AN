@@ -1,4 +1,4 @@
-public class MergeSort {
+public class Exercicio01 {
 
     public static void mergeSort(int[] array, int left, int right) {
         if (left < right) {
