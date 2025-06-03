@@ -52,8 +52,15 @@ def encontrar_melhor_caminho(matriz, inicio, fim):
 
 linhas = int(input("Digite o número de linhas: "))
 colunas = int(input("Digite o número de colunas: "))
-x_inicial = int(input("Digite a linha da posição inicial: "))
-y_inicial = int(input("Digite a coluna da posição inicial: "))
+
+while True:
+    x_inicial = int(input("Digite a linha da posição inicial: "))
+    y_inicial = int(input("Digite a coluna da posição inicial: "))
+    
+    if 0 <= x_inicial < linhas and 0 <= y_inicial < colunas:
+        break
+    else:
+        print("❌ Posição inicial fora dos limites da matriz. Tente novamente.\n")
 
 inicio = (x_inicial, y_inicial)
 matriz, fim = gerar_matriz(linhas, colunas, inicio)
