@@ -70,9 +70,9 @@ for i in range(linhas):
     linha_formatada = []
     for j in range(colunas):
         if (i, j) == inicio:
-            linha_formatada.append("S")  # Start
+            linha_formatada.append("I")
         elif (i, j) == fim:
-            linha_formatada.append("F")  # Final
+            linha_formatada.append("F")
         else:
             linha_formatada.append(str(matriz[i][j]))
     print(" ".join(linha_formatada))
