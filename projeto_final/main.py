@@ -1,0 +1,87 @@
+import random
+
+def gerar_matriz(linhas, colunas, inicio):
+    matriz = []
+    for i in range(linhas):
+        linha = []
+        for j in range(colunas):
+            if (i, j) == inicio:
+                linha.append(0)
+            else:
+                linha.append(1 if random.random() < 0.3 else 0)
+        matriz.append(linha)
+
+    while True:
+        x = random.randint(0, linhas - 1)
+        y = random.randint(0, colunas - 1)
+        if (x, y) != inicio and matriz[x][y] == 0:
+            final = (x, y)
+            break
+
+    return matriz, final
+
+def posicao_valida(matriz, visitado, x, y):
+    return (0 <= x < len(matriz) and 0 <= y < len(matriz[0]) and
+            matriz[x][y] == 0 and not visitado[x][y])
+
+def encontrar_melhor_caminho(matriz, inicio, fim):
+    linhas, colunas = len(matriz), len(matriz[0])
+    visitado = [[False] * colunas for _ in range(linhas)]
+    melhor_caminho = {"tamanho": float("inf"), "caminho": []}
+
+    def backtrack(x, y, caminho):
+        if len(caminho) >= melhor_caminho["tamanho"]:
+            return
+        if (x, y) == fim:
+            melhor_caminho["tamanho"] = len(caminho)
+            melhor_caminho["caminho"] = caminho[:]
+            return
+
+        visitado[x][y] = True
+        direcoes = [(1,0), (0,1), (-1,0), (0,-1)]
+        for dx, dy in direcoes:
+            nx, ny = x + dx, y + dy
+            if posicao_valida(matriz, visitado, nx, ny):
+                caminho.append((nx, ny))
+                backtrack(nx, ny, caminho)
+                caminho.pop()
+        visitado[x][y] = False
+
+    backtrack(inicio[0], inicio[1], [inicio])
+    return melhor_caminho
+
+linhas = int(input("Digite o número de linhas: "))
+colunas = int(input("Digite o número de colunas: "))
+x_inicial = int(input("Digite a linha da posição inicial: "))
+y_inicial = int(input("Digite a coluna da posição inicial: "))
+
+inicio = (x_inicial, y_inicial)
+matriz, fim = gerar_matriz(linhas, colunas, inicio)
+
+print("\nMatriz gerada:")
+for i in range(linhas):
+    linha_formatada = []
+    for j in range(colunas):
+        if (i, j) == inicio:
+            linha_formatada.append("S")  # Start
+        elif (i, j) == fim:
+            linha_formatada.append("F")  # Final
+        else:
+            linha_formatada.append(str(matriz[i][j]))
+    print(" ".join(linha_formatada))
+
+melhor = encontrar_melhor_caminho(matriz, inicio, fim)
+
+if melhor["tamanho"] == float("inf"):
+    print("\n❌ Não há caminho possível.")
+else:
+    print("\n✅ Melhor caminho encontrado ({} passos):".format(melhor["tamanho"]))
+    for passo in melhor["caminho"]:
+        print(passo)
+        
+    print("""\nNome: Henrique William Oliveira da Silva ---- RA: 220021662
+Nome: João V. Cardoso de Souza -------------- RA: 210018674
+Nome: Larissa Motta Carrara ----------------- RA: 220019902
+Nome: Matheus Duarte ------------------------ RA: 220020531
+Nome: Matheus Henrique de Oliveira ---------- RA: 220019916
+""")
