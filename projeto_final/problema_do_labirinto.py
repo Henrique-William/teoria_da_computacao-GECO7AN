@@ -1,4 +1,5 @@
 import random
+from collections import deque
 
 def gerar_matriz(linhas, colunas, inicio):
     matriz = []
@@ -27,28 +28,38 @@ def posicao_valida(matriz, visitado, x, y):
 def encontrar_melhor_caminho(matriz, inicio, fim):
     linhas, colunas = len(matriz), len(matriz[0])
     visitado = [[False] * colunas for _ in range(linhas)]
-    melhor_caminho = {"tamanho": float("inf"), "caminho": []}
+    pai = [[None] * colunas for _ in range(linhas)]
 
-    def backtrack(x, y, caminho):
-        if len(caminho) >= melhor_caminho["tamanho"]:
-            return
+    fila = deque()
+    fila.append(inicio)
+    visitado[inicio[0]][inicio[1]] = True
+
+    direcoes = [(1,0), (0,1), (-1,0), (0,-1)]
+
+    while fila:
+        x, y = fila.popleft()
         if (x, y) == fim:
-            melhor_caminho["tamanho"] = len(caminho)
-            melhor_caminho["caminho"] = caminho[:]
-            return
+            break
 
-        visitado[x][y] = True
-        direcoes = [(1,0), (0,1), (-1,0), (0,-1)]
         for dx, dy in direcoes:
             nx, ny = x + dx, y + dy
-            if posicao_valida(matriz, visitado, nx, ny):
-                caminho.append((nx, ny))
-                backtrack(nx, ny, caminho)
-                caminho.pop()
-        visitado[x][y] = False
+            if (0 <= nx < linhas and 0 <= ny < colunas and
+                not visitado[nx][ny] and matriz[nx][ny] == 0):
+                visitado[nx][ny] = True
+                pai[nx][ny] = (x, y)
+                fila.append((nx, ny))
 
-    backtrack(inicio[0], inicio[1], [inicio])
-    return melhor_caminho
+    if not visitado[fim[0]][fim[1]]:
+        return {"tamanho": float("inf"), "caminho": []}
+
+    caminho = []
+    atual = fim
+    while atual:
+        caminho.append(atual)
+        atual = pai[atual[0]][atual[1]]
+
+    caminho.reverse()
+    return {"tamanho": len(caminho) - 1, "caminho": caminho}
 
 def main():
     linhas = int(input("Digite o número de linhas: "))
